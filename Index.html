@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9d9d9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    form {
+      background-color: #ffe5e5;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .radio-group, .checkbox-group {
+      margin-top: 5px;
+    }
+
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #e07b7b;
+      color: white;
+      padding: 10px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #d66565;
+    }
+  </style>
+</head>
+<body>
+  <form id="registrationForm">
+    <h2>Student Registration Form</h2>
+
+    <label>Student Name:</label>
+    <input type="text" id="name" placeholder="Enter Student Name">
+    <span class="error" id="nameError"></span>
+
+    <label>Father's Name:</label>
+    <input type="text" id="father" placeholder="Enter Father's Name">
+    <span class="error" id="fatherError"></span>
+
+    <label>Date of Birth:</label>
+    <input type="date" id="dob">
+    <span class="error" id="dobError"></span>
+
+    <label>Mobile No.:</label>
+    <input type="text" id="mobile" placeholder="Enter 10-digit Mobile Number">
+    <span class="error" id="mobileError"></span>
+
+    <label>Email ID:</label>
+    <input type="email" id="email" placeholder="Enter Email Address">
+    <span class="error" id="emailError"></span>
+
+    <label>Password:</label>
+    <input type="password" id="password" placeholder="Enter Password">
+    <span class="error" id="passwordError"></span>
+
+    <label>Gender:</label>
+    <div class="radio-group">
+      <input type="radio" name="gender" value="Male"> Male
+      <input type="radio" name="gender" value="Female"> Female
+    </div>
+    <span class="error" id="genderError"></span>
+
+    <label>Department:</label>
+    <div class="checkbox-group">
+      <input type="checkbox" name="dept" value="CSE"> CSE
+      <input type="checkbox" name="dept" value="IT"> IT
+      <input type="checkbox" name="dept" value="ECE"> ECE
+      <input type="checkbox" name="dept" value="Civil"> Civil
+      <input type="checkbox" name="dept" value="Mech"> Mech
+    </div>
+    <span class="error" id="deptError"></span>
+
+    <label>Course:</label>
+    <select id="course">
+      <option value="">Select Current Course</option>
+      <option value="UG">UG</option>
+      <option value="PG">PG</option>
+      <option value="Diploma">Diploma</option>
+    </select>
+    <span class="error" id="courseError"></span>
+
+    <label>City:</label>
+    <input type="text" id="city" placeholder="Enter City">
+    <span class="error" id="cityError"></span>
+
+    <label>Address:</label>
+    <textarea id="address" rows="3" placeholder="Enter Address"></textarea>
+    <span class="error" id="addressError"></span>
+
+    <button type="submit">Register</button>
+    <p class="success" id="successMsg"></p>
+  </form>
+
+  <script>
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      // Get values
+      const name = document.getElementById("name").value.trim();
+      const father = document.getElementById("father").value.trim();
+      const dob = document.getElementById("dob").value.trim();
+      const mobile = document.getElementById("mobile").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const gender = document.querySelector('input[name="gender"]:checked');
+      const dept = document.querySelectorAll('input[name="dept"]:checked');
+      const course = document.getElementById("course").value.trim();
+      const city = document.getElementById("city").value.trim();
+      const address = document.getElementById("address").value.trim();
+
+      // Clear previous errors
+      document.querySelectorAll(".error").forEach(e => e.textContent = "");
+
+      // Validation checks 
+      if (name === "") { document.getElementById("nameError").textContent = "Student name is required"; valid = false; }
+      if (father === "") { document.getElementById("fatherError").textContent = "Father's name is required"; valid = false; }
+      if (dob === "") { document.getElementById("dobError").textContent = "Date of birth is required"; valid = false; }
+      if (mobile === "" || !/^[0-9]{10}$/.test(mobile)) {
+        document.getElementById("mobileError").textContent = "Enter valid 10-digit mobile number"; valid = false;
+      }
+      if (email === "" || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        document.getElementById("emailError").textContent = "Enter valid email address"; valid = false;
+      }
+      if (password.length < 6) {
+        document.getElementById("passwordError").textContent = "Password must be at least 6 characters"; valid = false;
+      }
+      if (!gender) { document.getElementById("genderError").textContent = "Select gender"; valid = false; }
+      if (dept.length === 0) { document.getElementById("deptError").textContent = "Select at least one department"; valid = false; }
+      if (course === "") { document.getElementById("courseError").textContent = "Select a course"; valid = false; }
+      if (city === "") { document.getElementById("cityError").textContent = "Enter city"; valid = false; }
+      if (address === "") { document.getElementById("addressError").textContent = "Enter address"; valid = false; }
+
+      if (valid) {
+        document.getElementById("successMsg").textContent = "Registration Successful!";
+      } else {
+        document.getElementById("successMsg").textContent = "";
+      }
+        if ( name == "" || father == "" || dob == "" || mobile == "" ||
+          email == "" || password == "" || !gender || dept.length == 0 ||
+          course == "" || city == "" || address == "") {
+        alert("⚠ Please fill out all fields before submitting!");
+        return false;
+      }
+
+      alert("✅ Registration Successful!");
+      return true;
+});
+  </script>
+</body>
+</html>
